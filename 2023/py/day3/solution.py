@@ -41,7 +41,7 @@ def part1():
         # print(f" GEAR MAP  {gear_map}")
         valid_dict = valid_populator(gear_map)
 
-        # print(valid_dict)
+        print(valid_dict)
         for y, line in enumerate(lines):
             number_list = ["0"]
             running_co_ord_list = []
@@ -50,7 +50,7 @@ def part1():
                 if c.isdigit():
                     number_list.append(c)
                     running_co_ord_list.append((x, y))
-                if not c.isdigit():
+                if not c.isdigit() or x == len(line) - 1:
                     actual_number = "0"
                     for e in number_list:
                         actual_number += e
@@ -62,18 +62,6 @@ def part1():
                     running_co_ord_list.clear()
 
     print(gear_sum)
-
-
-def parse_string(s):
-    lines = s.split("\n")
-    numbers = []
-    coords = []
-    for i, line in enumerate(lines):
-        for j, char in enumerate(line):
-            if char.isdigit():
-                numbers.append(int(char))
-                coords.append((i, j))
-    return numbers, coords
 
 
 if __name__ == "__main__":
