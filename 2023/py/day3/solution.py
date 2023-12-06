@@ -24,8 +24,6 @@ def valid_populator(gear_map: dict):
     return valid_dict
 
 
-# i want to keep adding to a list of numbers until it's done then i want to conncat
-# them together and check if any of there locations is valid. if yes add to a sum
 def part1():
     with open("input.txt") as f:
         lines = f.readlines()
