@@ -67,8 +67,46 @@ def part1():
     print("***********")
 
 
+def is_safe(report):
+    increasing = None
+    for i in range(1, len(report)):
+        diff = report[i] - report[i - 1]
+
+        if increasing is None:
+            increasing = diff > 0
+
+        if (increasing and diff <= 0) or (not increasing and diff >= 0):
+            return False
+
+        if abs(diff) > 3:
+            return False
+
+    return True
+
+
 def part2():
-    return
+    safe_count = 0
+    print("part2")
+    with open("input.txt") as f:
+        for line in f:
+            numbers = [int(x) for x in line.split()]
+
+            if is_safe(numbers):
+                print("safe")
+                safe_count += 1
+                continue
+
+            for i in range(len(numbers)):
+                test_numbers = numbers[:i] + numbers[i + 1 :]
+                if is_safe(test_numbers):
+                    print("subset safe")
+                    safe_count += 1
+                    break
+
+    print("***********")
+    print("safe count:")
+    print(safe_count)
+    print("***********")
 
 
 if __name__ == "__main__":
