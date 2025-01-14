@@ -1,3 +1,6 @@
+import itertools
+import re
+
 
 def part1(file):
     result = {}
@@ -28,28 +31,44 @@ def part1(file):
 
 def part2():
     result = {}
-    with open("input.txt") as f:
-        lines = f.readlines()
-        for line in lines:
-            pass
-            
-    print(f"part 2: {result}") 
+    doubles =itertools.product('abcdefghijklmnopqrstuvwxyz',repeat=2)
+    groups = []
+    for pair in doubles:
+        groups.append(pair[0]+pair[1])
+    print(groups)
+    middle = re.compile(r'([a-z]).\1')
 
-def part2_test():
-
-    result = {}
     with open("test.txt") as f:
         lines = f.readlines()
         for line in lines:
-            pass
-            
-    print(f"part 2 test: {result}") 
+            word_pair_found = False
+            middle_found = False
+            p = middle.match(line)
+            if (p):
+                middle_found = True
+            for pair in groups:
+                p = re.compile(pair)
+                iterator = p.finditer(line)
+                # need logic to check that there's no overlap 
+                for match in iterator:
+                    print('here') 
+                    print([match.span])
+                    print([match.start])
+                    print([match.end])
+
+            if word_pair_found and middle_found:
+                result[line]='good'
+
+                
+    print(f"part 2 : {len(result.keys())}") 
+
 
 
 
 if __name__ == "__main__":
-    print("input:")
-    part1('input.txt')
-    print("test:")
-    part1('test.txt')
+    # print("input:")
+    # part1('input.txt')
+    # print("test:")
+    # part1('test.txt')
     part2()
+    
