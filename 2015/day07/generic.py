@@ -1,107 +1,50 @@
-def line_solver(lines_to_process):
-    for line in lines_to_process:
-        try:
-            pass
-        except Exception as e:
-            raise e
+import functools
+import operator
 
-def source_nodes(lines_to_process):
-    result_dict ={}
-    for line in lines_to_process:
-        line = line.strip()
-        line = line.split()
-        if len(line) == 3:
-            result_dict[line[2]] = int(line[0])
-    return result_dict
-
+bitwise_operators = {
+    "AND": operator.and_,  
+    "LSHIFT": operator.lshift, 
+    "RSHIFT": operator.rshift,
+    "NOT": operator.not_,
+    "OR": operator.invert,
+    "ID": lambda x: x
+}
+wires = {}
 
 def part1():
-    result = {}
-    bitwise_operators = [
-        "AND",  
-        "LSHIFT",
-        "RSHIFT",
-        "NOT",
-        "OR"
-    ]
-    solved = {}
-    has_value_dict = {}
     with open("input.txt") as f:
         lines = f.readlines()
-        lines_to_process =[]
-        # give all source nodes
-        result = source_nodes(lines)
-        if len(lines) == 0:
+        for line in lines: 
+            line = line.strip().split()
+            match line:
+                case x, "->", y:
+                    wires[y] = (bitwise_operators['ID'], x) 
+                case *x, op, z, "->", y:
+                    wires[y] = (bitwise_operators[op], *x, z)
 
+    @functools.cache
+    def solve_wire(w):
+        if isinstance(w, int) or w[0].isdigit():
+            return int(w) & 0xFFFF
+        
+        wire_data = wires[w]
+        operation = wire_data[0]
+        args = wire_data[1:]
+        
+        solved_args = []
+        for arg in args:
+            solved_value = solve_wire(arg)
+            solved_args.append(solved_value)
+        
+        result = operation(*solved_args)
+        
+        final_result = result & 0xFFFF
+        
+        return final_result
 
+    return solve_wire("a")
 
-        for line in lines:
-            line = line.strip()
-            line = line.split()
-
-            if len(line) == 3:
-                result[line[2]] = int(line[0])
-            else:
-                lines_to_process.append(line)
-                continue
-        for line in lines_to_process:
-            try:
-                result[]
-            except Exception as e:
-                raise e
-
-
-
-
-            try:
-                solved[line[-1]]
-                continue
-            except KeyError:
-               pass
-            if not line[0].isdigit():
-                try:
-                        solved[line[0]]
-                except KeyError:
-                    pass
-                try:
-                        solved[line[]]
-                except KeyError:
-                    pass
-
-            if solved[line[-1]]:
-                pass
-
-            else:
-                for command in bitwise_operators:
-                    if command in line:
-                        if command == 'AND':
-                            x = result[line[0]] 
-                            y = result[line[2]]
-                            current_result=x & y
-                            result[line[4]] = current_result& 0xFFFF 
-                        if command == "LSHIFT":
-                            x = result[line[0]] 
-                            y = int(line[2])
-                            current_result=x << y
-                            result[line[4]]  = current_result& 0xFFFF 
-                        if command == "RSHIFT":
-                            x = result[line[0]] 
-                            y = int(line[2])
-                            current_result = x >> y
-                            result[line[4]]  = current_result& 0xFFFF 
-                        if command == "OR":
-                            x = result[line[0]] 
-                            y = result[line[2]]
-                            current_result= x | y
-                            result[line[4]]   = current_result& 0xFFFF 
-                        if command == "NOT":
-                            x = result[line[1]] 
-                            result[line[3]] = ~x & 0xFFFF
-
-            
-    print(f"part 1: {result.items()}") 
-    print(f"{result['a']}")
-
+print(part1())
 
 def part2():
     result = {}
