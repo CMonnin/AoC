@@ -1,40 +1,31 @@
+from ast import literal_eval
+
 def part1():
-    result = {}
-    with open("input.txt") as f:
+    running_count = 0
+    with open("input.txt",encoding="utf-8") as f:
         lines = f.readlines()
         for line in lines:
-            pass
+            line = line.strip()
+            running_count+= len(line)-len(literal_eval(line))
             
-    print(f"part 1: {result}") 
+    print(running_count)
 
-def part1_test():
-
-    result = {}
-    with open("test.txt") as f:
-        lines = f.readlines()
-        for line in lines:
-            pass
-            
-    print(f"part 1 test: {result}") 
+def helper (line):
+    return(line.replace('\\','\\\\').replace('"','\\"'))
 
 def part2():
-    result = {}
-    with open("input.txt") as f:
+    running_count = 0
+    with open("input.txt",encoding="utf-8") as f:
         lines = f.readlines()
         for line in lines:
-            pass
+            line = line.strip()
+            new_line = helper(line)
+            running_count+= len(new_line)-len(line)+2
+            print(new_line)
+            print(len(new_line)+2)
             
-    print(f"part 2: {result}") 
+    print(running_count)
 
-def part2_test():
-
-    result = {}
-    with open("test.txt") as f:
-        lines = f.readlines()
-        for line in lines:
-            pass
-            
-    print(f"part 2 test: {result}") 
 
 
 
