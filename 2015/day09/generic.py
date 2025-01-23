@@ -1,21 +1,18 @@
+import networkx as nx
+
 def part1():
+    G = nx.DiGraph() 
     result = {}
     with open("input.txt") as f:
         lines = f.readlines()
         for line in lines:
-            pass
-            
+            line = line.split(" ")
+            G.add_weighted_edges_from([(line[0],line[2], line[4])])
+
+    print(f"{G.nodes.items() }")
+    print(f"{G.edges.items() }")
     print(f"part 1: {result}") 
 
-def part1_test():
-
-    result = {}
-    with open("test.txt") as f:
-        lines = f.readlines()
-        for line in lines:
-            pass
-            
-    print(f"part 1 test: {result}") 
 
 def part2():
     result = {}
@@ -25,17 +22,6 @@ def part2():
             pass
             
     print(f"part 2: {result}") 
-
-def part2_test():
-
-    result = {}
-    with open("test.txt") as f:
-        lines = f.readlines()
-        for line in lines:
-            pass
-            
-    print(f"part 2 test: {result}") 
-
 
 
 if __name__ == "__main__":
