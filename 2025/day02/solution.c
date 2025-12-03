@@ -22,7 +22,7 @@ unsigned long long process_file(const char *filename) {
   size_t len = 0;
   char array[1024][256];
   int size = 0;
-  unsigned long long total=0;
+  long total=0;
   int count= 0;
 
   if (getline(&line, &len, file) != -1) {
@@ -51,14 +51,15 @@ unsigned long long process_file(const char *filename) {
       str2=array[i];
     // printf("%s\n","str2");
     // printf("%s\n",str2);
-      for (int j=atoi(str1); j<atoi(str2)+1; j++) {
+      long range_end = atol(str2)+1;
+      for (long j=atol(str1); j<range_end; j++) {
         char current_num[256];
-        sprintf(current_num,"%d",j);
+        sprintf(current_num,"%ld",j);
         if (strlen(current_num)%2==0) {
           if (check_halves(current_num)==0 ){
             printf("%s\n",current_num);
-            total+=atoi(current_num);
-            printf("%s%llu\n","current total",total);
+            total+=atol(current_num);
+            printf("%s%ld\n","current total: ",total);
             count++;
           }
         }
@@ -67,7 +68,7 @@ unsigned long long process_file(const char *filename) {
   }
   free(line);
   fclose(file);
-  printf("%s%d\n","count:",count);
+  printf("%s%d\n","count: ",count);
   return total;
 }
 
