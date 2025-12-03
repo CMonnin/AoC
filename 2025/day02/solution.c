@@ -12,6 +12,66 @@ int check_halves(char *str) {
       return 1;
     }
 }
+
+int is_even(int len) {
+    // also checks that len > 1
+    if (len%2==0) {
+      return 0;
+    } else {
+      return 1;
+    }
+}
+
+int compare(char* str) {
+    int len = strlen(str);
+    int* factors = malloc(len * sizeof(int)); 
+    int count = 0;
+    
+    for (long i = 1; i < len; i++) {
+        if (len % i == 0) {
+            factors[count++] = i;
+        }
+    }
+    
+    if (count == 0) {  
+        free(factors);
+        return 0;
+    }
+    
+    factors = realloc(factors, count * sizeof(int));
+    
+    for (int i = 0; i < count; i++) {
+        int pattern_len = factors[i];
+        
+        char* pattern = malloc(pattern_len + 1);
+        strncpy(pattern, str, pattern_len);
+        pattern[pattern_len] = '\0';
+        
+        int repetitions = len / pattern_len;
+        char* reconstructed = malloc(len + 1);
+        reconstructed[0] = '\0';
+        
+        for (int j = 0; j < repetitions; j++) {
+            strcat(reconstructed, pattern);
+        }
+        
+        if (strcmp(str, reconstructed) == 0) {
+            free(pattern);
+            free(reconstructed);
+            free(factors);
+            return 1;
+        }
+        
+        free(pattern);
+        free(reconstructed);
+    }
+    
+    free(factors);
+    return 0;
+}
+
+
+
 long process_file(const char *filename) {
   FILE *file = fopen(filename, "r");
   if (!file) return 1;
