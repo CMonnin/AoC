@@ -12,7 +12,7 @@ int check_halves(char *str) {
       return 1;
     }
 }
-unsigned long long process_file(const char *filename) {
+long process_file(const char *filename) {
   FILE *file = fopen(filename, "r");
   if (!file) return 1;
 
@@ -74,7 +74,7 @@ unsigned long long process_file(const char *filename) {
 
 
 int main(void) {
-    printf("test.txt  result: %llu\n", process_file("test.txt"));
-    printf("input.txt result: %llu\n", process_file("input.txt"));
+    printf("test.txt  result: %ld\n", process_file("test.txt"));
+    printf("input.txt result: %ld\n", process_file("input.txt"));
     return 0;
 }
