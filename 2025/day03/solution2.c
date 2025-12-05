@@ -37,7 +37,7 @@ long process_file(const char* filename){
                         
                         number_as_string[12] = '\0';
                         printf("number_as_string %d: %s\n", count, number_as_string);
-                        long number_as_int = atoll(number_as_string);
+                        long number_as_int = atol(number_as_string);
                         total += number_as_int;
                         count++;
                 }
