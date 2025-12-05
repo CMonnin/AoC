@@ -1,15 +1,6 @@
 #include <stdio.h>
-
 #include <stdlib.h>
 
-int comp(const int *a, const int *b) {
-        // b-a for descending order
-        if (a>b) {
-                return *b;
-        } else {
-                return *a;
-        }
-}
 int process_file(const char* filename){
         FILE *file = fopen(filename, "r");
 
@@ -19,25 +10,46 @@ int process_file(const char* filename){
 
         char line[256] ;
         int total=0;
+        int count = 1;
                 while (fgets(line, sizeof(line), file)) {
-                        int arr[100];
-                        for (int i=0; i<100; i++) {
-                                arr[i]=atoi(&line[i]);
+                        char first = line[0];
+                        int first_index = 0;
+                        char second = 0;
+                        int second_index= 0;
+                        for (int i=1; i<99; i++) {
+                                if (first < line[i]) {
+                                        first = line[i];
+                                        first_index = i;
+                                }
                         }
-                        int n = sizeof(arr) / sizeof(arr[0]);
-                        for (int i=0; i<100; i++) {
-                                printf("%i\n", arr[i]);
+                        for (int j=first_index+1; j<100; j++) {
+                                if (second< line[j]) {
+                                        second = line[j];
+                                        second_index= j;
+                                }
                         }
-                }
+                        char number_as_string[3];
+                        number_as_string[0] = first;
+                        number_as_string[1] = second;
+                        number_as_string[2] = '\0';
+
+                        printf("number_as_string: %d: %s\n",count, number_as_string);
+
+                        int number_as_int = atoi(number_as_string);
+                        total += number_as_int;
+                        count++;
+
+                        }
 
         fclose(file);
 
-        return 0;
+        return total;
 }
 
 int main(void)
 {
-        printf("test.txt  result: %d\n", process_file("test.txt"));
+        //printf("test.txt  result: %d\n", process_file("test.txt"));
+        printf("input.txt  result: %d\n", process_file("input.txt"));
         return 0;
     
 }
